@@ -63,6 +63,19 @@ app.put('/edit-item', (req, res)=>{
     res.send('Item updated successfully');
 })
 
+app.delete('/delete-item', (req, res) => {
+    console.log("Delete Request Body :", req.body);
+    db.query('delete from todoItems where ID = ?;', [req.body.ID], (error, result) => {
+        if (error) {
+            console.log('Error Deleting Item : ', error);
+            res.status(500).send('Error deleting item');
+            return;
+        }
+        console.log('Item Deleted Successfully : ', result);
+        res.send('Item deleted successfully');
+    });
+});
+
 app.listen(3000, ()=> {
     console.log("Server Started Running on Port 3000"); 
 })

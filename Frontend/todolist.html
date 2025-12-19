@@ -111,15 +111,30 @@
         },
         body: JSON.stringify({ text })
       })
-      
+      value.value = '';
+      window.location.reload();
     }
 
+
     function deleteTodo(index) {
+      fetch('http://localhost:3000/delete-item', {
+        method: 'DELETE', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ID: todos[index].ID })
+      })
+      window.location.reload();
     }
+
 
     function editTodo(index) {
       todos[index].editing = true;
       renderTodos();
+    }
+
+    function updateTodo(event, index) {
+      todos[index].text = event.target.value;
     }
 
     function saveTodo(ID) {
@@ -128,7 +143,7 @@
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ID:ID, itemDescription: 'New Description' })
+        body: JSON.stringify({ ID:ID, itemDescription: todos.find(item=>item.ID===ID).text })
       })
       window.location.reload();
     }
